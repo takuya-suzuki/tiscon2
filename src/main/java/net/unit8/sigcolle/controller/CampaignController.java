@@ -103,15 +103,27 @@ public class CampaignController {
         PegDownProcessor processor = new PegDownProcessor(Extensions.ALL);
 
         // TODO タイトル, 目標人数を登録する
+
         Campaign model = builder(new Campaign())
-            .set(Campaign::setStatement, processor.markdownToHtml(form.getStatement()))
-            .set(Campaign::setCreateUserId, principal.getUserId())
-            .build();
+                .set(Campaign::setStatement, processor.markdownToHtml(form.getStatement()))
+                .set(Campaign::setCreateUserId, principal.getUserId())
+                .set(Campaign::setTitle , form.getTitle())
+                .set(Campaign::setGoal , Long.parseLong(form.getGoal()))//string as long
+                .build();
+
         // TODO Databaseに登録する
+        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
+        campaignDao.insert(model);
 
         // TODO 作成完了した旨のflashメッセージを画面に表示する
+
+        session.put(
+                "principal",
+                new LoginUserPrincipal(model.getCampaignId() , "作成完了")
+        );
+
         return builder(redirect("/campaign/" + model.getCampaignId(), SEE_OTHER))
-            .build();
+                .build();
     }
 
     /**
