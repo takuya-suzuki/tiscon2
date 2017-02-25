@@ -20,6 +20,8 @@ import org.pegdown.PegDownProcessor;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import java.util.List;
+
 import static enkan.util.BeanBuilder.builder;
 import static enkan.util.HttpResponseUtils.RedirectStatusCode.SEE_OTHER;
 import static enkan.util.HttpResponseUtils.redirect;
@@ -119,7 +121,7 @@ public class CampaignController {
 
         session.put(
                 "principal",
-                new LoginUserPrincipal(model.getCampaignId() , "作成完了")
+                new LoginUserPrincipal( principal.getUserId() , principal.getUserName() )
         );
 
         return builder(redirect("/campaign/" + model.getCampaignId(), SEE_OTHER))
@@ -127,6 +129,7 @@ public class CampaignController {
     }
 
     /**
+     *
      * ログインユーザの作成したキャンペーン一覧を表示します.
      * ---------------------------------------
      * FIXME このメソッドは作成途中です.
@@ -134,7 +137,15 @@ public class CampaignController {
      * @param session ログインしているユーザsession
      */
     public HttpResponse listCampaigns(Session session) {
-        throw new UnsupportedOperationException("実装してください !!");
+        CampaignDao dao = domaProvider.getDao(CampaignDao.class);
+        //campaindaoから呼び出す
+        LoginUserPrincipal principal = (LoginUserPrincipal) session.get("principal");
+        //データベースとやり取り
+        List<Campaign> list = dao.selectbyUserId( String.valueOf(principal.getUserId()) );//ここでuserのすべての値を格納する
+        //パスにlist変数に格納したlistを渡すhtmlへ
+        return templateEngine.render("campaign/list",
+                "list", list );//dao.selectById(principal.getUserId())
+        //throw new UnsupportedOperationException("実装してください !!");
     }
 
     private HttpResponse showCampaign(Long campaignId,
