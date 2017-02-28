@@ -17,7 +17,8 @@ public class V1__CreateUser implements JdbcMigration {
                     "first_name VARCHAR(20)," +
                     "last_name VARCHAR(20)," +
                     "email VARCHAR(50) NOT NULL," +
-                    "pass VARCHAR(20) NOT NULL" +
+                    "pass VARCHAR(20) NOT NULL," +
+                    "login_flag BOOLEAN NULL" +
                     ")");
         }
     }

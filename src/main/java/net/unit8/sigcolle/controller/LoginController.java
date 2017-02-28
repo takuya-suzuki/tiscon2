@@ -6,6 +6,7 @@ import enkan.data.HttpResponse;
 import enkan.data.Session;
 import kotowari.component.TemplateEngine;
 import net.unit8.sigcolle.auth.LoginUserPrincipal;
+import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.UserDao;
 import net.unit8.sigcolle.form.LoginForm;
 import net.unit8.sigcolle.model.User;
@@ -78,7 +79,10 @@ public class LoginController {
                 new LoginUserPrincipal(user.getUserId(), user.getLastName() + " " + user.getFirstName())
         );
 
-        return builder(redirect("/", SEE_OTHER))
+//        user.setLoginFlag(true);
+//        int x = userDao.update(user);
+
+        return builder(redirect("/index", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
     }
@@ -90,7 +94,12 @@ public class LoginController {
      */
     @Transactional
     public HttpResponse logout(Session session) {
-        session.clear();
+//        UserDao dao = domaProvider.getDao(UserDao.class);
+//        LoginUserPrincipal principal = (LoginUserPrincipal)session.get("principal");
+//        User user = dao.selectByUserId(principal.getUserId());//useridからuserを受け取る
+//        user.setLoginFlag(false);
+//        int x = dao.update(user);
+//        session.clear();
         return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();

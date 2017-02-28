@@ -141,10 +141,10 @@ public class CampaignController {
         //campaindaoから呼び出す
         LoginUserPrincipal principal = (LoginUserPrincipal) session.get("principal");
         //データベースとやり取り
-        List<Campaign> list = dao.selectbyUserId( String.valueOf(principal.getUserId()) );//ここでuserのすべての値を格納する
+        List<Campaign> list = dao.selectbyUserId( String.valueOf(principal.getUserId()) );//ここでuserが作成したキャンペーンをすべて格納する
         //パスにlist変数に格納したlistを渡すhtmlへ
         return templateEngine.render("campaign/list",
-                "list", list );//dao.selectById(principal.getUserId())
+                "list", list );
         //throw new UnsupportedOperationException("実装してください !!");
     }
 

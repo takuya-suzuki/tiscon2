@@ -36,7 +36,8 @@ public class SigColleApplicationFactory implements ApplicationFactory {
 
         Routes routes = Routes.define(r -> {
             // public
-            r.get("/").to(IndexController.class, "index");
+            r.get("/").to(LoginController.class, "index");//トップページをログイン画面と同様に
+            r.get("/index").to(IndexController.class, "index");
             r.get("/campaign/:campaignId").to(CampaignController.class, "index");
             r.post("/campaign/:campaignId").to(CampaignController.class, "sign");
             r.get("/campaign/:campaignId/signatures").to(SignatureController.class, "list");

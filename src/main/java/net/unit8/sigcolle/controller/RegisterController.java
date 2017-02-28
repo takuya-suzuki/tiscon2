@@ -76,7 +76,7 @@ public class RegisterController {
                 new LoginUserPrincipal(loginUser.getUserId(), loginUser.getLastName() + " " + loginUser.getFirstName())
         );
 
-        return builder(redirect("/", SEE_OTHER))
+        return builder(redirect("/index", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
     }

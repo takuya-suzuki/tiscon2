@@ -5,7 +5,7 @@
 <header class="ui fixed menu" th:fragment="header">
     <div class="ui container"
          th:with="isLogin=((${session} != null) and (${session.principal} != null))">
-        <a href="/" class="header item logo">SIG COLLE</a>
+        <a href="/index" class="header item logo">SIG COLLE</a>
 
         <div class="right menu">
             <div th:if="${isLogin}" class="ui link item dropdown">
@@ -26,7 +26,7 @@
                 <span th:text="${session.principal.userName}">name</span> さん
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="#">ユーザ情報変更</a>
+                    <a class="item" href="/edit">ユーザ情報変更</a>//このリンクページを作成すればよい
                 </div>
             </div>
             <a th:if="${isLogin}" href="/logout" class="item">ログアウト</a>

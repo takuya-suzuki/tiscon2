@@ -5,6 +5,7 @@ import net.unit8.sigcolle.model.User;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Update;
 
 /**
  * @author takahashi
@@ -22,4 +23,10 @@ public interface UserDao {
 
     @Select(ensureResult = true)
     User selectByEmail(String email);
+
+    @Select
+    boolean getloginFlag( String userId );
+
+    @Update
+    int update( User user );
 }
