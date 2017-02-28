@@ -1,0 +1,1 @@
+SELECT count(*) FROM user WHERE user_id = /*userId*/1 AND email=/*email*/1;

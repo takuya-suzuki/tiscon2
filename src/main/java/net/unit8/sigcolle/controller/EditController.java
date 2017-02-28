@@ -52,14 +52,25 @@ public class EditController {
         }
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
+        LoginUserPrincipal principal = (LoginUserPrincipal)session.get("principal");
+        User user = userDao.selectByUserId(principal.getUserId());//useridからuserを受け取
 
-        // メールアドレス重複チェック
-        if (userDao.countByEmail(form.getEmail()) != 0) {
-            form.setErrors(Multimap.of("email", EMAIL_ALREADY_EXISTS));
-            return templateEngine.render("user/edit",
-                                         "user", form
-            );
+        //IDが一緒かつメールが一緒の場合のみ1
+        //userIDと入力されたアドレスをデータベースと比較
+        //一致した場合はcount=1となる(同盟ユーザのアドレスを認識)よって1の時はif文に入らずそのまま登録する
+        //全て不一致の場合0となるはず
+        if( userDao.matchByEmail( user.getUserId() , form.getEmail()) != 1)
+        {
+            // メールアドレス重複チェック
+            if (userDao.countByEmail(form.getEmail()) != 0) {
+                form.setErrors(Multimap.of("email", EMAIL_ALREADY_EXISTS));
+                return templateEngine.render("user/edit",
+                        "user", form
+                );
+            }
         }
+        else
+        {}
 
 //        User user = builder(new User())
 //                .set(User::setLastName, form.getLastName())
@@ -67,9 +78,6 @@ public class EditController {
 //                .set(User::setEmail, form.getEmail())
 //                .set(User::setPass, form.getPass())
 //                .build();
-
-        LoginUserPrincipal principal = (LoginUserPrincipal)session.get("principal");
-        User user = userDao.selectByUserId(principal.getUserId());//useridからuserを受け取る
 
         user = builder(user)
                 .set(User::setLastName, form.getLastName())
@@ -80,11 +88,9 @@ public class EditController {
 
         int x = userDao.update(user);
 
-        User loginUser = userDao.selectByEmail(form.getEmail());
-
         session.put(
                 "principal",
-                new LoginUserPrincipal(loginUser.getUserId(), loginUser.getLastName() + " " + loginUser.getFirstName())
+                new LoginUserPrincipal(user.getUserId(), user.getLastName() + " " + user.getFirstName())
         );
 
         return builder(redirect("/index", SEE_OTHER))

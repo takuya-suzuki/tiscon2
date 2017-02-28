@@ -25,6 +25,9 @@ public interface UserDao {
     User selectByEmail(String email);
 
     @Select
+    int matchByEmail( Long userId , String email);
+
+    @Select
     boolean getloginFlag( String userId );
 
     @Update
