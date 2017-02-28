@@ -26,7 +26,7 @@
                 <span th:text="${session.principal.userName}">name</span> さん
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="/edit">ユーザ情報変更</a>//このリンクページを作成すればよい
+                    <a class="item" href="/auth/user/edit">ユーザ情報変更</a><!--このリンクページを作成すればよい-->
                 </div>
             </div>
             <a th:if="${isLogin}" href="/logout" class="item">ログアウト</a>

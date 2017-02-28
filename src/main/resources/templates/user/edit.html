@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signature Collection</title>
+    <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet"/>
+    <link href="/css/main.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="pusher">
+    <div class="full height image">
+        <div class="ui main container">
+            <div class="ui information container">
+                <div class="ui middle aligned center aligned grid">
+                    <div class="center column">
+                        <div class="ui segment">
+                            <h1 class="ui center aligned header">情報変更</h1>
+                            <form class="ui form" method="post" action="user/edit"
+                                  th:action="@{~/auth/user/edit}"
+                                  th:classappend="${user.hasErrors()} ? 'error'">
+                                <div class="field" th:classappend="${user.hasErrors('lastName')} ? 'error'">
+                                    <input type="text" name="lastName" placeholder="姓"
+                                           th:value="${user.lastName != null} ? ${user.lastName}" />
+                                    <ul class="ui pointing red basic label" th:if="${user.hasErrors('lastName')}">
+                                        <li th:each="message : ${user.getErrors('lastName')}" th:text="${message}"></li>
+                                    </ul>
+                                </div>
+                                <div class="field"  th:classappend="${user.hasErrors('firstName')} ? 'error'">
+                                    <input type="text" name="firstName" placeholder="名"
+                                           th:value="(${user.firstName}!=null)?${user.firstName}"/>
+                                    <ul class="ui pointing red basic label" th:if="${user.hasErrors('firstName')}">
+                                        <li th:each="message : ${user.getErrors('firstName')}" th:text="${message}"></li>
+                                    </ul>
+                                </div>
+                                <div class="field" th:classappend="${user.hasErrors('email')} ? 'error'">
+                                    <input type="email" name="email" placeholder="メールアドレス"
+                                           th:value="(${user.email}!=null)?${user.email}"/>
+                                    <ul class="ui pointing red basic label" th:if="${user.hasErrors('email')}">
+                                        <li th:each="message : ${user.getErrors('email')}" th:text="${message}"></li>
+                                    </ul>
+                                </div>
+                                <div class="field" th:classappend="${user.hasErrors('pass')} ? 'error'">
+                                    <input type="password" name="pass" placeholder="パスワード"/>
+                                    <ul class="ui pointing red basic label" th:if="${user.hasErrors('pass')}">
+                                        <li th:each="message : ${user.getErrors('pass')}" th:text="${message}"></li>
+                                    </ul>
+                                </div>
+                                <button class="ui fluid red button">登録</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

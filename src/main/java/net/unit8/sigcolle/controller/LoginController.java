@@ -99,7 +99,7 @@ public class LoginController {
 //        User user = dao.selectByUserId(principal.getUserId());//useridからuserを受け取る
 //        user.setLoginFlag(false);
 //        int x = dao.update(user);
-//        session.clear();
+        session.clear();
         return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
